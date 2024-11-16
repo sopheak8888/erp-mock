@@ -1,6 +1,15 @@
 import { IsOptional, IsString, IsInt, Min, Max } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import C from '../common';
+
+export class ProviderParamsDto {
+  @ApiProperty({
+    enum: Object.values(C),
+  })
+  @IsString()
+  entity: string;
+}
 
 export class ProviderQueryDto {
   @ApiProperty({
@@ -30,13 +39,21 @@ export class ProviderQueryDto {
   limit?: number = 10;
 
   @ApiProperty({
-    enum: ['created_at', 'name'],
+    required: false,
+    enum: [
+      'created_at',
+      'name',
+      'transaction_date',
+      'order_date',
+      'reorder_date',
+    ],
   })
   @IsOptional()
   @IsString()
-  sortBy?: string = 'created_at';
+  sortBy?: string;
 
   @ApiProperty({
+    required: false,
     enum: ['ASC', 'DESC'],
   })
   @IsOptional()

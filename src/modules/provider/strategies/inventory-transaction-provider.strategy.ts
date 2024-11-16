@@ -20,9 +20,13 @@ export class InventoryTransactionProviderStrategy implements ProviderStrategy {
         },
         take: query.limit,
         skip: (query.page - 1) * query.limit,
-        order: {
-          [query.sortBy]: query.sortOrder,
-        },
+        ...(query.sortBy
+          ? {
+              order: {
+                [query.sortBy]: query.sortOrder,
+              },
+            }
+          : {}),
       });
 
     return {

@@ -16,9 +16,13 @@ export class ReorderProviderStrategy implements ProviderStrategy {
     const [reorders, total] = await this.reorderRepository.findAndCount({
       take: query.limit,
       skip: (query.page - 1) * query.limit,
-      order: {
-        [query.sortBy]: query.sortOrder,
-      },
+      ...(query.sortBy
+        ? {
+            order: {
+              [query.sortBy]: query.sortOrder,
+            },
+          }
+        : {}),
     });
 
     return {

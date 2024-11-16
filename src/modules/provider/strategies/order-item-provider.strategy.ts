@@ -16,9 +16,13 @@ export class OrderItemProviderStrategy implements ProviderStrategy {
     const [orderItems, total] = await this.orderItemRepository.findAndCount({
       take: query.limit,
       skip: (query.page - 1) * query.limit,
-      order: {
-        [query.sortBy]: query.sortOrder,
-      },
+      ...(query.sortBy
+        ? {
+            order: {
+              [query.sortBy]: query.sortOrder,
+            },
+          }
+        : {}),
     });
 
     return {
